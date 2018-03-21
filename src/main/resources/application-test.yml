@@ -27,6 +27,9 @@ spring:
   jackson:
     serialization:
       indent_output: true
+  output:
+      ansi:
+        enabled: detect
   redis:
       database: 0
       host: localhost
