@@ -1,7 +1,9 @@
 package com.example.demo;
 
+import com.example.demo.entity.Company;
 import com.example.demo.entity.Department;
 import com.example.demo.entity.Manager;
+import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class DataController {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @RequestMapping("/department/ready")
     public void departmentReady() {
@@ -38,5 +43,27 @@ public class DataController {
         List<Department> departments = departmentRepository.findAll();
 
         departments.forEach(x -> System.out.println(x.getName()));
+    }
+
+    @RequestMapping("/saveCompany")
+    public void saveCompany() {
+        Manager manager = new Manager();
+        manager.setName("wangjingli");
+
+        Department department = new Department();
+        department.setName("kaifabu");
+
+        department.setManager(manager);
+        manager.setDepartment(department);
+
+        Company company = new Company();
+        company.setName("heli");
+        company.getDepartmentSet().add(department);
+
+        department.setCompany(company);
+
+        companyRepository.save(company);
+
+        System.out.println("OK");
     }
 }

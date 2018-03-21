@@ -1,12 +1,15 @@
 package com.example.demo.entity;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Table(name = "T_DEPARTMENT")
 @Entity
-@Data
+@Getter
+@Setter
 public class Department {
     @Column(name = "ID")
     @GeneratedValue
@@ -19,4 +22,9 @@ public class Department {
     @JoinColumn(name = "MANAGER_ID")
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Manager manager;
+
+    @ManyToOne
+    @JoinColumn(name = "COMPANY_ID")
+    private Company company;
+
 }

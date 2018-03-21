@@ -5,20 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-@Table(name = "T_MANAGER")
 @Entity
+@Table(name = "T_COMPANY")
 @Getter
 @Setter
-public class Manager {
-    @Column(name = "ID")
+public class Company {
     @GeneratedValue
     @Id
+    @Column(name = "ID")
     private Integer id;
 
     @Column(name = "NAME")
     private String name;
 
-    @OneToOne(mappedBy = "manager", optional = true)
-    private Department department;
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    private Set<Department> departmentSet = new HashSet<>();
 }
