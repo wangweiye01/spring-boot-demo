@@ -66,4 +66,12 @@ public class DataController {
 
         System.out.println("OK");
     }
+
+    @RequestMapping("/deleteCompany")
+    public void deleteCompany() {
+
+        companyRepository.delete(1);
+
+        System.out.println("OK");
+    }
 }
