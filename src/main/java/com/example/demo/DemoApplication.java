@@ -8,7 +8,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @ServletComponentScan(value = {"com.example.demo.filter"})
-@EnableSwagger2
 public class DemoApplication {
 
 	public static void main(String[] args) {

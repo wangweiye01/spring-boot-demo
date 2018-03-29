@@ -1,6 +1,7 @@
 package com.example.demo.rest;
 
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ public class PersonRestService {
         persons.add(new Person("Foo", "Bar"));
     }
 
+    @ApiOperation(value = "获得所有用户信息", notes = "")
     @RequestMapping(path = "/persons", method = RequestMethod.GET)
     public static List<Person> getPersons() {
         return persons;

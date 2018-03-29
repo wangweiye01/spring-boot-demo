@@ -19,7 +19,7 @@ public class Swagger2Config {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.example.demo"))
-                .paths(PathSelectors.none())
+                .paths(PathSelectors.any())
                 .build();
     }
 
