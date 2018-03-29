@@ -1,6 +1,8 @@
 package com.example.demo.rest;
 
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class PersonRestService {
     }
 
     @ApiOperation(value = "获得所有用户信息", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
+    })
     @RequestMapping(path = "/persons", method = RequestMethod.GET)
     public static List<Person> getPersons() {
         return persons;

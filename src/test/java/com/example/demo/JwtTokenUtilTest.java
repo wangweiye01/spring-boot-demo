@@ -150,7 +150,9 @@ public class JwtTokenUtilTest {
         final DeviceDummy device = new DeviceDummy();
         device.setNormal(true);
 
-        return jwtTokenUtil.generateToken(new UserDetailsDummy(TEST_USERNAME), device);
+        String tokenStr = jwtTokenUtil.generateToken(new UserDetailsDummy(TEST_USERNAME), device);
+        System.out.println(tokenStr);
+        return tokenStr;
     }
 
 }
