@@ -50,8 +50,6 @@ public class DataController {
 
 
         companyRepository.save(company);
-        managerRepository.save(manager);
-        departmentRepository.save(department);
     }
 
     @RequestMapping("/departments")

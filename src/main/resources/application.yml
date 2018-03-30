@@ -24,6 +24,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: com.example.demo.config.MySQL5DialectUTF8
   jackson:
     serialization:
       indent_output: true
