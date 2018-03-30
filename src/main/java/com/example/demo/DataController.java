@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,7 +70,8 @@ public class DataController {
     })
     @RequestMapping(value = "/departments", method = RequestMethod.GET)
     public JSONObject departments() {
-        Pageable pageable = new PageRequest(0, 10);
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
+        Pageable pageable = new PageRequest(0, 10, sort);
         Page departments = departmentRepository.findAll(pageable);
 
         return JsonResult.success(departments);
