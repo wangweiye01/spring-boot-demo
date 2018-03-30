@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.demo.common.utils.JsonResult;
 import com.example.demo.entity.Company;
 import com.example.demo.entity.Department;
 import com.example.demo.entity.Manager;
@@ -11,13 +13,16 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Api(value = "测试controller", tags = {"测试JPA接口"})
@@ -63,41 +68,25 @@ public class DataController {
             @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
     })
     @RequestMapping(value = "/departments", method = RequestMethod.GET)
-    public String departments() {
-        List<Department> departments = departmentRepository.findAll();
+    public JSONObject departments() {
+        Pageable pageable = new PageRequest(0, 10);
+        Page departments = departmentRepository.findAll(pageable);
 
-        departments.forEach(x -> System.out.println(x.getName()));
-
-        return "查询完成";
+        return JsonResult.success(departments);
     }
 
-    @RequestMapping("/saveCompany")
-    public void saveCompany() {
-        Manager manager = new Manager();
-        manager.setName("wangjingli");
+    @RequestMapping(value = "/getOneCompany", method = RequestMethod.GET)
+    @ApiOperation(value = "查询某个公司", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
+    })
+    public Map<String, Object> getOneCompany() {
+        Company company = companyRepository.findOne(1);
+        Map<String, Object> result = new HashMap<>();
+        result.put("id", company.getId());
+        result.put("name", company.getName());
+        result.put("departments", company.getDepartmentSet());
 
-        Department department = new Department();
-        department.setName("kaifabu");
-
-        department.setManager(manager);
-        manager.setDepartment(department);
-
-        Company company = new Company();
-        company.setName("heli");
-        company.getDepartmentSet().add(department);
-
-        department.setCompany(company);
-
-        companyRepository.save(company);
-
-        System.out.println("OK");
-    }
-
-    @RequestMapping("/deleteCompany")
-    public void deleteCompany() {
-
-        companyRepository.delete(1);
-
-        System.out.println("OK");
+        return result;
     }
 }
