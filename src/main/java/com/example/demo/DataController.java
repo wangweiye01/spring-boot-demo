@@ -38,7 +38,7 @@ public class DataController {
             @ApiImplicitParam(name = "companyName", value = "公司名称", dataType = "string", required = true, paramType = "form")
     })
     @RequestMapping(value = "/department/ready", method = RequestMethod.POST)
-    public ResponseEntity<?> departmentReady(@RequestParam String managerName, @RequestParam String companyName) {
+    public String departmentReady(@RequestParam String managerName, @RequestParam String companyName) {
         Manager manager = new Manager();
         manager.setName(managerName);
 
@@ -55,7 +55,7 @@ public class DataController {
         company.getDepartmentSet().add(department);
 
 
-        return ResponseEntity.ok(companyRepository.save(company));
+        return "保存成功";
     }
 
     @ApiOperation(value = "查询所有部门", notes = "")
@@ -63,12 +63,12 @@ public class DataController {
             @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
     })
     @RequestMapping(value = "/departments", method = RequestMethod.GET)
-    public ResponseEntity<?> departments() {
+    public String departments() {
         List<Department> departments = departmentRepository.findAll();
 
         departments.forEach(x -> System.out.println(x.getName()));
 
-        return ResponseEntity.ok("查询完成");
+        return "查询完成";
     }
 
     @RequestMapping("/saveCompany")

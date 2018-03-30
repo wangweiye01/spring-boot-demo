@@ -23,7 +23,7 @@ public class Department {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Manager manager;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPANY_ID")
     private Company company;
 
