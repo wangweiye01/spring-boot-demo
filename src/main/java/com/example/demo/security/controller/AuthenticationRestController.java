@@ -1,8 +1,14 @@
 package com.example.demo.security.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.demo.common.utils.JsonResult;
+import com.example.demo.model.security.Authority;
+import com.example.demo.model.security.User;
 import com.example.demo.security.JwtAuthenticationRequest;
 import com.example.demo.security.JwtTokenUtil;
 import com.example.demo.security.JwtUser;
+import com.example.demo.security.repository.AuthorityRepository;
+import com.example.demo.security.repository.UserRepository;
 import com.example.demo.security.service.JwtAuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,12 +21,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Date;
 
 @RestController
 public class AuthenticationRestController {
@@ -36,6 +45,12 @@ public class AuthenticationRestController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
@@ -71,4 +86,26 @@ public class AuthenticationRestController {
         }
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public JSONObject login(HttpServletRequest request) {
+        String userName = "wwy121";
+        String password = "123456";
+
+        User user = new User();
+        user.setUsername(userName);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setFirstname("wang");
+        user.setLastname("weiye");
+        user.setEmail("wwyknight@163.com");
+        user.setEnabled(true);
+        user.setLastPasswordResetDate(new Date());
+
+        Authority authority = authorityRepository.findOne(1L);
+
+        user.setAuthorities(Arrays.asList(authority));
+
+        userRepository.save(user);
+
+        return JsonResult.success("注册成功");
+    }
 }
