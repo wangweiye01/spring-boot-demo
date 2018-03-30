@@ -24,11 +24,11 @@ public class Department implements Serializable{
     private String name;
 
     @JoinColumn(name = "MANAGER_ID")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
     private Manager manager;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "COMPANY_ID")
     @JsonManagedReference
     private Company company;
