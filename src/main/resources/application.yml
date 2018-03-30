@@ -22,6 +22,8 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
   jackson:
     serialization:
       indent_output: true

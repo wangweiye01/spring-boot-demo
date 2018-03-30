@@ -6,8 +6,12 @@ import com.example.demo.entity.Manager;
 import com.example.demo.repository.CompanyRepository;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.ManagerRepository;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,7 +27,11 @@ public class DataController {
     @Autowired
     private CompanyRepository companyRepository;
 
-    @RequestMapping("/department/ready")
+    @ApiOperation(value = "保存部门信息", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
+    })
+    @RequestMapping(value = "/department/ready", method = RequestMethod.POST)
     public void departmentReady() {
         Manager manager = new Manager();
         manager.setName("manger w");
@@ -31,10 +39,18 @@ public class DataController {
         Department department = new Department();
         department.setName("department y");
 
+        Company company = new Company();
+        company.setName("立德");
+
 
         manager.setDepartment(department);
         department.setManager(manager);
+        department.setCompany(company);
+        company.getDepartmentSet().add(department);
 
+
+        companyRepository.save(company);
+        managerRepository.save(manager);
         departmentRepository.save(department);
     }
 

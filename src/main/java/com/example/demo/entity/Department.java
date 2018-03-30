@@ -20,7 +20,7 @@ public class Department {
     private String name;
 
     @JoinColumn(name = "MANAGER_ID")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     private Manager manager;
 
     @ManyToOne
