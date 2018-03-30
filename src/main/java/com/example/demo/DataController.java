@@ -80,13 +80,13 @@ public class DataController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
     })
-    public Map<String, Object> getOneCompany() {
+    public JSONObject getOneCompany() {
         Company company = companyRepository.findOne(1);
         Map<String, Object> result = new HashMap<>();
         result.put("id", company.getId());
         result.put("name", company.getName());
         result.put("departments", company.getDepartmentSet());
 
-        return result;
+        return JsonResult.success(result);
     }
 }
