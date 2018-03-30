@@ -68,7 +68,7 @@ public class DataController {
 
         departments.forEach(x -> System.out.println(x.getName()));
 
-        return ResponseEntity.ok(departments);
+        return ResponseEntity.ok("查询完成");
     }
 
     @RequestMapping("/saveCompany")
