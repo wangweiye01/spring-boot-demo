@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,5 +91,16 @@ public class DataController {
         result.put("departments", company.getDepartmentSet());
 
         return JsonResult.success(result);
+    }
+
+    @RequestMapping(value = "/findAllCompany", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有公司", notes = "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", name = "Authorization", value = "token", required = true, dataType = "string"),
+    })
+    public JSONObject findAllCompany() {
+        List<Company> companies = companyRepository.findAll();
+
+        return JsonResult.success(companies);
     }
 }

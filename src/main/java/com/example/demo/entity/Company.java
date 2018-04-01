@@ -1,7 +1,9 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +17,8 @@ import java.util.Set;
 @Table(name = "T_COMPANY")
 @Getter
 @Setter
-@JsonIgnoreProperties({ "handler","hibernateLazyInitializer" })
+@JsonIgnoreProperties({"handler", "hibernateLazyInitializer"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Company implements Serializable {
     @GeneratedValue
     @Id
@@ -26,6 +29,5 @@ public class Company implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    @JsonBackReference
     private Set<Department> departmentSet = new HashSet<>();
 }
